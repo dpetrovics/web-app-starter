@@ -1,4 +1,5 @@
 (ns leiningen.new.web-app-starter
+  (:require [clojure.java.io :as io])
   (:use [leiningen.new.templates :only [renderer name-to-path ->files]]))
 
 (def render (renderer "web-app-starter"))
