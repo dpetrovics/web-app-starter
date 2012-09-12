@@ -22,4 +22,5 @@
              ["src/{{sanitized}}/models/user.clj" (render "user.clj" data)]
              ["src/{{sanitized}}/views/shared.clj" (render "shared.clj" data)]
              ["src/{{sanitized}}/views/home.clj" (render "home.clj" data)]
+             ["src/{{sanitized}}/views/login.clj" (render "login.clj" data)]
              )))

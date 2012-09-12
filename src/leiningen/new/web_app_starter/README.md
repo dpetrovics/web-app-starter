@@ -21,7 +21,7 @@ home.clj - compare to pg
 shared.clj - compare to pg
 shared.html - keep footer?
 
-login.clj - ??
+login.clj - check to make sure its ok
 
 {{name}}.css - ??
 
