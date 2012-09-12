@@ -1,17 +1,21 @@
 (ns leiningen.new.web-app-starter
-  (:require [clojure.java.io :as io])
-  (:use [leiningen.new.templates :only [renderer name-to-path ->files]]))
-
-(def render (renderer "web-app-starter"))
+  "Generate a web-app-starter project."
+  (:use [leiningen.new.templates :only [renderer year project-name
+                                        sanitize-ns name-to-path ->files]]))
 
 (defn web-app-starter
   "FIXME: write documentation"
   [name]
-  (let [data {:name name
-              :sanitized (name-to-path name)}]
+  (let [render (renderer "web-app-starter")
+        data {:raw-name name
+              :name (project-name name)
+              :namespace (sanitize-ns name)
+              :sanitized (name-to-path name)
+              :year (year)}]
+    (println "Generating a project called" name "based on the 'web-app-starter' template.")
     (->files data
-             [".gitignore" (render "gitignore" data)]
              ["project.clj" (render "project.clj" data)]
+             [".gitignore" (render "gitignore" data)]
              ["README.md" (render "README.md" data)]
              ["resources/public/css/bootstrap.css" (render "bootstrap.css" data)]
              ["resources/public/html/shared.html" (render "shared.html" data)]
