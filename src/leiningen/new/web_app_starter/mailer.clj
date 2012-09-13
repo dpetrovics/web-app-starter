@@ -1,6 +1,6 @@
-(ns {{name}} .mailer
+(ns {{name}}.mailer
   (:use [postal.core :only (send-message)]
-        {{name}} .util))
+        {{name}}.util))
 
 (defn send-email!
   "Accepts a recipient email, a subject line and a body (in text form)

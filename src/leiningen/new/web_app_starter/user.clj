@@ -1,11 +1,11 @@
-(ns {{name}} .models.user
-  (:use {{name}} .util.time
-        {{name}} .util)
+(ns {{name}}.models.user
+  (:use {{name}}.time
+        {{name}}.util)
   (:require [noir.util.crypt :as crypt]
             [noir.session :as session]
             [noir.validation :as vali]
-            [{{name}} .couchdb :as db]
-            [{{name}} .mailer :as mailer]
+            [{{name}}.couchdb :as db]
+            [{{name}}.mailer :as mailer]
             [sandbar.validation :as v])
   (:import  (com.google.i18n.phonenumbers PhoneNumberUtil NumberParseException)
             (org.apache.commons.validator.routines EmailValidator))) 

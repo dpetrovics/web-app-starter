@@ -15,7 +15,7 @@
     (println "Generating a project called" name "based on the 'web-app-starter' template.")
     (->files data
              ["project.clj" (render "project.clj" data)]
-             [".gitignore" (render "gitignore" data)]
+             ;;             [".gitignore" (render "gitignore" data)]
              ["README.md" (render "README.md" data)]
              ["resources/public/css/bootstrap.css" (render "bootstrap.css" data)]
              ["resources/public/html/shared.html" (render "shared.html" data)]
@@ -24,6 +24,7 @@
              ["src/{{sanitized}}/couchdb.clj" (render "couchdb.clj" data)]
              ["src/{{sanitized}}/mailer.clj" (render "mailer.clj" data)]
              ["src/{{sanitized}}/server.clj" (render "server.clj" data)]
+             ["src/{{sanitized}}/session.clj" (render "session.clj" data)]
              ["src/{{sanitized}}/models/user.clj" (render "user.clj" data)]
              ["src/{{sanitized}}/views/shared.clj" (render "shared.clj" data)]
              ["src/{{sanitized}}/views/home.clj" (render "home.clj" data)]

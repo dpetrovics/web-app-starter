@@ -1,7 +1,8 @@
-(ns {{name}} .util.time
-  (:require [clj-time.core :as time]
-            [clj-time.format :as format]
-            [clojure.string :as s]))
+(ns {{name}}.time
+    (:use [{{name}}.util :only (div-rem)])
+    (:require [clj-time.core :as time]
+              [clj-time.format :as format]
+              [clojure.string :as s]))
 
 (defn timestamp
   "Returns the current timestamp, formatted using the supplied

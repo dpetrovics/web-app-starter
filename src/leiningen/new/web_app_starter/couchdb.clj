@@ -3,31 +3,41 @@
     (:require [com.ashafa.clutch :as c]
               [cemerick.url :as url]))
 
-(def cloudant-url
-  "FIX-THIS")
+(def my-db (atom nil))
 
-(def ^{:dynamic true} *remote-db*
-  "Returns the database on the remote heroku server."
-  (c/get-database (str cloudant-url "/db-name-here/")))   ;;FIX THIS
+(defn remote-db [db-name]
+  (try (c/get-database (str (System/getenv "CLOUDANT_URL")
+                            (str "/" db-name "/")))
+       (catch Exception e (println "ERROR: "(.getMessage e)))))
+
+(defn local-db [db-name]
+  (try
+    (c/get-database (str (System/getenv "COUCHDB_LOCAL")
+                         (str "/" db-name "/")))
+    (catch Exception e (println "ERROR: "(.getMessage e)))))
+
+(defn setup-couchdb [db-name local-or-remote]
+  (println "Setting up couchdb...")
+  (if (= local-or-remote :local)
+    (swap! my-db (constantly (local-db db-name)))
+    (swap! my-db (constantly (remote-db db-name)))))
  
 (defn get-view [design-name map-name & [query-params-map post-data-map]]
-  ;;we need to encode the slash in key so the couchdb path doesnt get
-  ;;messed up
   (println "getting view: " design-name " " map-name)
-  (c/get-view *remote-db* design-name map-name query-params-map post-data-map)) 
+  (c/get-view @my-db design-name map-name query-params-map post-data-map)) 
 
 
 (defn get-all
   "Get all objects from CouchDB."
   [& {:keys [include-docs]}]
-  (-> *remote-db*
+  (-> @my-db
       (c/all-documents {:include_docs (boolean include-docs)})))
 
  (defn get
   "Query CouchDB for the supplied key."
   [id]
   (println "DB/GET: " id)
-  (c/get-document *remote-db* (url/url-encode id)))
+  (c/get-document @my-db (url/url-encode id)))
 
 (defn create!
   "Add the supplied object to the database; no validations are
@@ -38,12 +48,12 @@
    - data, id, vector of attachments"
   [document & opts]
 ;;  (println "doc: " document " opts: " opts)
-  (apply c/put-document *remote-db* document opts))
+  (apply c/put-document @my-db document opts))
 
 (defn delete!
   "Takes a document and deletes it from the database."
   [document]
-  (c/delete-document *remote-db* document)) 
+  (c/delete-document @my-db document)) 
 
 (defn update!
   "Takes any of the following sets of arguments:
@@ -55,13 +65,13 @@
   update! acts on the CouchDB document with the key of the first map
   provided."
   [& args]
-  (apply c/update-document *remote-db* args))
+  (apply c/update-document @my-db args))
 
 ;;ATTACHMENTS
 (defn get-attachment
   "Gets the attchment from the document in the db"
   [document file]
-  (c/get-attachment *remote-db* document file))
+  (c/get-attachment @my-db document file))
 
 (defn add-attachment!
   "Add the attachment to the document database; no validations are
@@ -70,14 +80,14 @@
    - file for attachment ie 'resources/imgs/logo.png')
    - optional :filename filename :mime-type 'image/jpeg' "
   [document file & opts]
-  (apply c/put-attachment *remote-db* document file opts))
+  (apply c/put-attachment @my-db document file opts))
 
 (defn delete-attachment!
   "Deletes the attachment from the document in the database; Call with the following:
    - regatta document
    - file for attachment ie 'logo.png')"
   [document file]
-  (c/delete-attachment *remote-db* document file))
+  (c/delete-attachment @my-db document file))
 
 ;;BULK-DOCUMENT FUNCTIONS
 (defn get-bulk
@@ -85,7 +95,7 @@
   [ids]
   (println "Get-Bulk: " (count ids) " things from the db")
   (if ids
-    (c/all-documents *remote-db*
+    (c/all-documents @my-db
                      {:include_docs true}
                      {:keys ids})
     `()))
@@ -93,10 +103,10 @@
 (defn bulk-update
   "Takes in a collection of maps, each of which must have and :_id and a :_rev field corresponding to the document in couchdb. It then updates those documents with whatever is in the input maps"
   [docs]
-  (c/bulk-update *remote-db* docs))
+  (c/bulk-update @my-db docs))
 
 (defn delete-bulk!
  "Takes in a collection of documents, each of which must have and :_id and :_rev field, and deletes them from couchdb in one request"
   [docs]
-  (c/bulk-update *remote-db*
+  (c/bulk-update @my-db
                  (map (fn [doc] (assoc doc :_deleted true)) docs)))

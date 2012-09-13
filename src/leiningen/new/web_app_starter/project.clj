@@ -11,9 +11,10 @@
                  [com.googlecode.libphonenumber/libphonenumber "5.0"]
                  [commons-validator/commons-validator "1.4.0"]
                  [paddleguru/enlive "1.2.0-alpha1"]
+                 [paddleguru/postal "1.7-SNAPSHOT"]
                  [paddleguru/clj-redis-session "0.0.2"]
                  [ring/ring-core "1.1.1"]]
   :profiles {:dev {:dependencies [[clj-stacktrace "0.2.4"]]}} ;;great
   ;;for debugging
   :plugins [[lein-swank "1.4.4"]]
-  :main {{name}} .server)
+  :main {{name}}.server)

@@ -1,8 +1,9 @@
-(ns {{name}} .util
-  (:require [net.cgrand.enlive-html :as html]
-            [clojure.string :as s])
-  (:import [java.net URI]
-           java.security.SecureRandom))
+(ns {{name}}.util
+    (:require [net.cgrand.enlive-html :as html]
+              [clojure.string :as s])
+    (:import [java.net URI]
+             (com.google.i18n.phonenumbers PhoneNumberUtil NumberParseException)
+             java.security.SecureRandom))
 
 ;;GENERAL
 (defn insert
