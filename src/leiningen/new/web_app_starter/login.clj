@@ -38,7 +38,7 @@
 
 (form-helper signup-form
              :validator user/signup-validator
-             :post-url "signup"
+             :post-url "/signup"
              :submit-label "Sign Up!"
              :fields [{:name "first-name" 
                        :label "First Name"
@@ -99,12 +99,10 @@
                            (session/flash-put! :flash "Please Fix Errors")
                            ;;form-data map will not contain checkboxes or radios
                            ;;(like gender) if the user has not selected one
-                           (render "/signup" (if (:gender form-data)
-                                               form-data
-                                               (assoc form-data :gender "")))))
+                           (render "/signup" form-data)))
 
 (defpage "/signup" {:as m}
-  (shared/page {:main (substitute (signup-form m "signup" "/"))
+  (shared/page {:main (substitute (signup-form m "/signup" "/"))
                 :sources []})) 
 
 (defpage "/logout" []

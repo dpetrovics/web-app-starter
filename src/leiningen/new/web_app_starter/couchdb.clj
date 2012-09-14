@@ -110,3 +110,51 @@
   [docs]
   (c/bulk-update @my-db
                  (map (fn [doc] (assoc doc :_deleted true)) docs)))
+
+;;CouchDB Views
+(defn save-user-view [design-name] 
+  (c/save-view @my-db design-name
+               (c/view-server-fns :javascript
+                                  {:users
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['username'], doc); }} "}
+                                   :emails-by-username
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['username'], doc['email']); }}"}
+                                   :users-by-email
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['email'], doc); }}"
+                                    }
+                                   :users-by-activation-code
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['activation-code'], doc); }}"
+                                    }
+                                   :users-by-pw-reset-code
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['pw-reset-code'], doc); }}"
+                                    }
+                                   :usernames-by-fullname
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['first-name'] + ' ' + doc['last-name'], doc['username']); }} "}
+                                   :users-by-fullname
+                                   {:map
+                                    "function(doc) {
+      if (doc.type == 'user') {
+          emit(doc['first-name'] + ' ' + doc['last-name'], doc); }} "}})))
+
+(defn setup-views
+  []
+  (do
+    (save-user-view "user-view")))
