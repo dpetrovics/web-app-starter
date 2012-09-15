@@ -5,7 +5,7 @@
 
 (def shared-template "public/html/shared.html")
 
-(def bs-alert "js/bootstrap-alert.js")
+(def bs-alert "/js/bootstrap-alert.js")
 
 (def jquery-js "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
 (def jquery-ui-js "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js")
