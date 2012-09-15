@@ -1,6 +1,9 @@
 ## Web-App-Starter
 
-A 'starter kit' for developing web apps in Clojure. It creates a project skeleton that uses Noir, CouchDB, Enlive, Forms-Bootstrap, and email authentication inspired by Noir Auth App. Meant to be hosted on Heroku with Cloudant for CouchDB and RedisToGo for the key value store. It might be over-configured for many users, but it gets you up and going very quickly if you want to use the above libraries anyways.
+A leiningen template meant to be used as a 'starter kit' for developing web apps in Clojure. It creates a project 
+skeleton that uses Noir, CouchDB, Enlive, Forms-Bootstrap, and email authentication inspired by Noir-Auth-App. Meant to 
+be hosted on Heroku with Cloudant for CouchDB and RedisToGo for the key value store. It might be over-configured for 
+many users, but it gets you up and going very quickly if you want to use the above libraries anyways.
 
 ## Getting Started
 
@@ -50,7 +53,8 @@ Resources:
 
 
 ## CouchDB Views
-The template makes the following views available to you. Remember to run (setup-views) in couchdb.clj once you have configured your CouchDB credentials. These views are used in login, activation, password reseting, etc.
+The template makes the following views available to you. Remember to run (setup-views) in couchdb.clj once you have 
+configured your CouchDB credentials. These views are used in login, activation, password reseting, etc.
 
 1. users
 2. emails-by-username
