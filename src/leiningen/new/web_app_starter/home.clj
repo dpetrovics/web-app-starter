@@ -9,4 +9,7 @@
   (shared/page {}))
 
 (defpage "/" {:as m}
-  (shared/page {:main (content "Welcome!")}))
+  (shared/page {:main (do-> (content {:tag "p" :content "Welcome!"})
+                            (append (shared/link-to "/signup" "Signup"))
+                            (append " or ")
+                            (append (shared/link-to "/login" "Login")))}))

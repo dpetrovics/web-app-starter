@@ -7,7 +7,7 @@ googlephone numbers
 commons validator for email validation 
 
 ## Created Files
-ORDER OF SHIT TO DO:
+**ORDER OF SHIT TO DO:
 1. lein new web-app-starter PROJECTNAME
 2. set these things in your profile and adjust in the code if you want different names
 REDISTOGO_URL =  (used in session.clj)
@@ -15,7 +15,11 @@ CLOUDANT_URL = (used in couchdb.clj)
 LOCAL_COUCH =  (used in couchdb.clj)
 NOIR_PORT = defaults to 8080
 3. lein swank, go to couchdb.clj, run (setup-couchdb dbname :remote) ;;or :local
-4. still in couchdb.clj, run (setup-views)
+4. still in couchdb.clj, run (setup-views)**
+5. in mailer.clj fix the send-email! fn with your email credentials
+
+refactor if necessary, esp login.clj
+BOOTSTRAP ALERT, other JS?
 
 
 VIEWS:

@@ -276,7 +276,7 @@
                                :pw-reset-code-created-at
                                (timestamp))))
       (vali/set-error :reset-password "That email address is not on
-      PaddleGuru."))))
+      {{name}}."))))
 
 (defn validate-reset-code
   [reset-code]

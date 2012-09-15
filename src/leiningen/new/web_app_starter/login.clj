@@ -12,7 +12,7 @@
 
 (form-helper login-form
              :validator user/login-validator
-             :post-url "login"
+             :post-url "/login"
              :fields [{:name "username"
                        :label "Username" 
                        :type "text"} 
@@ -26,12 +26,12 @@
                            (response/redirect "/"))
              :on-failure (fn [form-data]
                            (if-let [err-msg (peek (vali/on-error :form identity))]
-                             (session/flash-put! :flash err-msg)
-                             (session/flash-put! :flash "Please Fix Errors"))      
+                             (session/flash-put! :flash ["error" err-msg])
+                             (session/flash-put! :flash ["error" "Please Fix Errors"]))      
                            (render "/login" form-data)))
 
 (defpage "/login" {:as m}
-  (shared/page {:main (do-> (substitute (login-form m "login" "/"))
+  (shared/page {:main (do-> (substitute (login-form m "/login" "/"))
                             (append (shared/link-to "forgot-password"
                                                     "Forgot your password?"))
                             (wrap :div {:id "login_links"}))}))
@@ -96,7 +96,7 @@
                                             account!"])
                            (response/redirect "/"))
              :on-failure (fn [form-data]
-                           (session/flash-put! :flash "Please Fix Errors")
+                           (session/flash-put! :flash ["error" "Please Fix Errors"])
                            ;;form-data map will not contain checkboxes or radios
                            ;;(like gender) if the user has not selected one
                            (render "/signup" form-data)))
@@ -120,7 +120,7 @@
       (user/login! (:username user))
       (session/flash-put! :flash ["success"
                                   "Your account has been activated. Welcome!"])
-      (response/redirect "/profile")) 
+      (response/redirect "/")) 
     (do
       (session/flash-put! :flash ["error"
                                   (first (vali/get-errors))])
@@ -128,7 +128,7 @@
 
 (form-helper forgot-password-form
              :validator user/forgot-password-validator
-             :post-url "forgot-password"
+             :post-url "/forgot-password"
              :submit-label "Reset Password"
              :fields [{:name "email" 
                        :label "Email Address"
@@ -151,14 +151,14 @@
                                (render "/forgot-password" user-map))))
              :on-failure (fn [form-data]
                            (if-let [errs (vali/get-errors)]
-                             (session/flash-put! :flash (first errs))
-                             (session/flash-put! :flash "Please Fix Errors"))
+                             (session/flash-put! :flash ["error" (first errs)])
+                             (session/flash-put! :flash ["error" "Please Fix Errors"]))
                            (render "/forgot-password" form-data)))
 
 (defpage "/forgot-password"
   {:as m}
   (shared/page {:main (substitute (forgot-password-form m
-                                                        "forgot-password"
+                                                        "/forgot-password"
                                                         "/login"))
                 :sources []}))
 
@@ -173,7 +173,7 @@
                               activation link."])
       (response/redirect "/"))
     (do
-      (session/flash-put! :flash (first (vali/get-errors)))
+      (session/flash-put! :flash ["error" (first (vali/get-errors))])
       (response/redirect "/"))))
 
 (defpage "/reset-pw-code" {:keys [username] :as m}
@@ -187,7 +187,7 @@
                               reset password link."])
       (response/redirect "/"))
     (do
-      (session/flash-put! :flash (first (vali/get-errors)))
+      (session/flash-put! :flash ["error" (first (vali/get-errors))])
       (response/redirect "/"))))
 
 (form-helper reset-password-form
@@ -207,10 +207,9 @@
                                             "Your password has been reset. Log in below"])
                 (response/redirect "/login"))
   :on-failure (fn [form-data]
-                (println "FSDFDS " form-data)
                 (if-let [errs (vali/get-errors)]
-                  (session/flash-put! :flash (first errs))
-                  (session/flash-put! :flash "Please Fix Errors"))
+                  (session/flash-put! :flash ["error" (first errs)])
+                  (session/flash-put! :flash ["error" "Please Fix Errors"]))
                 (render "/reset-pw/:code" form-data)))
 
 (defpage "/reset-pw/:code"
