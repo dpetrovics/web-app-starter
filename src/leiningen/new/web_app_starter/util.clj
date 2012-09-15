@@ -33,6 +33,33 @@
   (juxt quot mod))
 
 ;;ENLIVE HELPERS
+(defn nodes-to-html
+  [n]
+  (apply str (html/emit* n)))
+
+(defn onclick-str
+  "Takes in an onclick-fn name and some or no arguments, and retruns a
+  string suitable for use in html. Ex: (onclick-str 'somejs' '('one'
+  'two')) => 'somejs(one two)'"
+  [onclick-fn onclick-args]
+  (let [a (str onclick-fn "(")
+        b (when onclick-args
+            (apply str (interpose " " onclick-args)))
+        c (str a b ")")]
+    c))
+
+(defn link-to
+  "Returns a map representation link of an anchor link to `ref` with
+  the supplied content. Suitable for use in enlive templating calls."
+  [ref content & [onclick & oc-args]]
+  (let [base-map {:tag :a
+                  :attrs {:href ref}    
+                  :content [content]}]
+    (if onclick
+      (assoc base-map :attrs {:href ref
+                              :onclick (onclick-str onclick oc-args)})
+      base-map)))
+
 (defmacro maybe-substitute
   ([expr] `(if-let [x# ~expr]
              (html/substitute x#)

@@ -280,15 +280,18 @@
 
 (defn validate-reset-code
   [reset-code]
-  (if-let [user (find-by-pw-reset-code reset-code)]
+  (if-let [user (find-by-pw-reset-code reset-code)] 
     (if (code-expired? (:pw-reset-code-created-at user))
-      (do
-        (vali/set-error :pw-reset-code
-                        (str
-                         "Your password reset code has expired, please <a
-                        href='/reset-pw-code?username="
-                         (:username user)
-                         "'>click here</a> for a new password reset email.")))    
+      (dox
+       (vali/set-error :pw-reset-code (str
+                                       "Your password reset code has expired. Please "
+                                       (nodes-to-html (link-to
+                                                       "#"
+                                                       "click here"
+                                                       "resetPwCode"
+                                                       (str "'" (:username
+                                                                 user) "'")))
+                                       " for a new password reset email.")))
       user)
     (vali/set-error :activation-code "That reset code does not exist.")))
 
@@ -317,10 +320,14 @@
       (do
         (vali/set-error :activation-code
                         (str
-                         "Your activation code has expired, please <a
-                        href='/reset-activation?username="
-                         (:username user)
-                         "'>click here</a> for a new activation email.")))    
+                         "Your activation code has expired. Please "
+                         (nodes-to-html (link-to
+                                         "#"
+                                         "click here"
+                                         "resetActivation"
+                                         (str "'" (:username
+                                                   user) "'")))
+                         " for a new activation email.")                        ))    
       (activate-user-in-db! user))
     (vali/set-error :activation-code "That activation code does not exist.")))
  

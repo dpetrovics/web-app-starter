@@ -32,7 +32,7 @@
 
 (defpage "/login" {:as m}
   (shared/page {:main (do-> (substitute (login-form m "/login" "/"))
-                            (append (shared/link-to "forgot-password"
+                            (append (link-to "forgot-password"
                                                     "Forgot your password?"))
                             (wrap :div {:id "login_links"}))}))
 
@@ -162,7 +162,7 @@
                                                         "/login"))
                 :sources []}))
 
-(defpage "/reset-activation" {:keys [username] :as m}
+(defpage [:post "/reset-activation/:username"] {:keys [username] :as m}
   (if-let [user (user/reset-activation-code username)]
     (do 
       (mailer/email-activation-code {:email (:email user)
@@ -176,7 +176,7 @@
       (session/flash-put! :flash ["error" (first (vali/get-errors))])
       (response/redirect "/"))))
 
-(defpage "/reset-pw-code" {:keys [username] :as m}
+(defpage [:post "/reset-pw-code/:username"] {:keys [username] :as m}
   (if-let [user (user/reset-pw-code username)]
     (do 
       (mailer/email-pw-reset-code {:email (:email user)

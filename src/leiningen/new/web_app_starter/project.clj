@@ -16,5 +16,6 @@
                  [ring/ring-core "1.1.1"]] ;; do we need this?
   :profiles {:dev {:dependencies [[clj-stacktrace "0.2.4"]]}} ;;great
   ;;for debugging
-  :plugins [[lein-swank "1.4.4"]]
+  :plugins [[lein-swank "1.4.4"]
+            [codox "0.6.1"]]
   :main {{name}}.server)

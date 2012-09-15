@@ -19,7 +19,11 @@ NOIR_PORT = defaults to 8080
 5. in mailer.clj fix the send-email! fn with your email credentials
 
 refactor if necessary, esp login.clj
-BOOTSTRAP ALERT, other JS?
+add documentation! codox: lein doc
+
+UPDATED LINK TO, moved it to utils, changed all other link to references accordingly
+reset password stuff now works via post. fix reset activation as well. refactor, move all new code + js file to web-app-starter
+
 
 
 VIEWS:

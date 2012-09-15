@@ -11,14 +11,6 @@
 (def jquery-ui-js "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js")
 (def jquery-css "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css")
 
-(defn link-to    
-  "Returns a map representation link of an anchor link to `ref` with
-  the supplied content. Suitable for use in enlive templating calls."
-  [ref content] 
-  {:tag :a
-   :attrs {:href ref}    
-   :content [content]})
-
 (deftemplate base-layout
   shared-template
   [{:keys [title header main footer styles flash active-section sources]
