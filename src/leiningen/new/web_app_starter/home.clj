@@ -1,6 +1,7 @@
 (ns {{name}}.views.home
     (:require [{{name}}.views.shared :as shared]
-              [{{name}}.models.user :as user])
+              [{{name}}.models.user :as user]
+              [noir.session :as session])
     (:use noir.core
           net.cgrand.enlive-html
           forms-bootstrap.core
@@ -10,7 +11,8 @@
   (shared/page {}))
 
 (defpage "/" {:as m}
-  (shared/page {:main (do-> (content {:tag "p" :content "Welcome!"})
+  (shared/page {:main (do-> (content {:tag "p" :content
+                                      (str "Welcome " (session/get :username) "!")})
                             (append (link-to "/signup" "Signup"))
                             (append " or ")
                             (append (link-to "/login" "Login")))

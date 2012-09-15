@@ -45,9 +45,15 @@
   "Checks to see if the user map contains an :activation-code. If so, then the user has not yet been activated."
   [{:keys [username] :as m}]
   (if-let [act-code (:activation-code (get-user username))]
-    (v/add-validation-error m :form   "You haven't activated the account
-                            yet. Click here to send a new activation
-                            email.")
+    (v/add-validation-error m :form
+                            (str
+                             "You haven't activated the account yet. "
+                             (nodes-to-html (link-to
+                                             "#"
+                                             "Click here"
+                                             "resetActivation"
+                                             (str "'" username "'")))
+                             " for a new activation email."))
     m))
 
 (def login-validator
@@ -56,8 +62,8 @@
   (v/build-validator (v/non-empty-string :username)
                      (v/non-empty-string :password)
                      :ensure
-                     user-activated?
-                     user-valid?))
+                     user-valid?
+                     user-activated?))
 
 (def forgot-password-validator
   (v/build-validator
@@ -282,7 +288,7 @@
   [reset-code]
   (if-let [user (find-by-pw-reset-code reset-code)] 
     (if (code-expired? (:pw-reset-code-created-at user))
-      (dox
+      (do
        (vali/set-error :pw-reset-code (str
                                        "Your password reset code has expired. Please "
                                        (nodes-to-html (link-to

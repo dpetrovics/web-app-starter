@@ -33,8 +33,9 @@
 (defpage "/login" {:as m}
   (shared/page {:main (do-> (substitute (login-form m "/login" "/"))
                             (append (link-to "forgot-password"
-                                                    "Forgot your password?"))
-                            (wrap :div {:id "login_links"}))}))
+                                             "Forgot your password?"))
+                            (wrap :div {:id "login_links"}))
+                :sources ["/js/reset-codes.js"]}))
 
 (form-helper signup-form
              :validator user/signup-validator
