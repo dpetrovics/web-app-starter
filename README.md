@@ -61,9 +61,12 @@ The template makes the following views available to you. Remember to run (setup-
 
 
 ## To Do
-refactor if necessary, esp login.clj
-add documentation! 'lein doc' to check.
-Project deps - move away from using the paddleguru ones if not necessary.
+
+* refactor if necessary, esp login.clj
+* add documentation! 'lein doc' to check.
+* Project deps: move away from using the paddleguru ones if not necessary.
+* add support for changing email address?
+         
 
 ## License
 
