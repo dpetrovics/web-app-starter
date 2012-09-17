@@ -17,6 +17,7 @@
              ["project.clj" (render "project.clj" data)]
              ;;             [".gitignore" (render "gitignore" data)]
              ["README.md" (render "README.md" data)]
+             ["Procfile" (render "Procfile" data)]
              ["resources/public/css/bootstrap.css" (render "bootstrap.css" data)]
              ["resources/public/html/shared.html" (render "shared.html" data)]
              ["resources/public/js/bootstrap-alert.js" (render "bootstrap-alert.js" data)]

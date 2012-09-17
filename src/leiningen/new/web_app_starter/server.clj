@@ -19,7 +19,7 @@
   "Main entry point. Mode can be prod or dev (default), and
   local-or-remote can be local or remote (default)"
   [& [mode local-or-remote :as args]]
-  (let [port (Integer. (or (System/getenv "NOIR_PORT") "8080"))
+  (let [port (Integer. (or (System/getenv "PORT") "8080"))
         mode (or (keyword mode) :dev)
         local-or-remote (or (keyword
                              local-or-remote) :remote)]

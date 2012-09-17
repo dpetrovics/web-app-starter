@@ -5,11 +5,12 @@ A 'starter kit' for developing web apps in Clojure. It creates a project skeleto
 ## Getting Started
 
 1. lein new web-app-starter PROJECTNAME
-2. In your bash profile, set the following variables: If you want different names then be sure to change them in the code.
+2. In your bash profile, set the following variables: 
 	REDISTOGO_URL   (used in session.clj)
 	CLOUDANT_URL  (used in couchdb.clj)
 	LOCAL_COUCH   (used in couchdb.clj)
-	NOIR_PORT  (defaults to 8080)
+	PORT  (defaults to 8080)
+	If you want different names for these variables then be sure to change them in the code. REDISTOGO_URL and CLOUDANT_URL are created automatically be heroku when you add the RedisToGo and Cloudant addons to your app. Read [this article](https://devcenter.heroku.com/articles/config-vars) for information on accessing or changing these config vars.
 3. lein swank, go to couchdb.clj, run (setup-couchdb dbname :remote) ;;or :local
 4. still in couchdb.clj, run (setup-views)
 5. in mailer.clj fix the send-email! fn with your email credentials, and set the site-url.
